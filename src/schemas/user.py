@@ -7,41 +7,27 @@ class User(BaseModel):
     username: str
     created_at: datetime
     name: str
-    correo: str
     password: str
-    rol: str
-    is_expert: bool
+    mail: str
+    role: str
+    icon_url: Optional[str]
     
-class UserGet(BaseModel):
+class InsertUser(BaseModel):
+    username: str
+    name: str
+    correo: str
+    password: str
+    role: str
+    icon_url: Optional[str]
+
+class UpdateUser(BaseModel):
     id: int
-    username: str
-    created_at: datetime
-    name: str
-    correo: str
-    rol: str
-    is_expert: bool
-
-class UserCreate(BaseModel):
-    username: str
-    name: str
-    correo: str
-    password: str
-    rol: str
-    is_expert: bool
-
-class UserUpdate(BaseModel):
-    username: str
-    name: str
-    correo: str
-    password: str
-    rol: str
+    username: Optional[str]
+    name: Optional[str]
+    correo: Optional[str]
+    password: Optional[str]
+    role: Optional[str]
+    icon_url: Optional[str]
 
 class UserDelete(BaseModel):
     id: int
-    username: str
-    created_at: datetime
-    name: str
-    correo: str
-    password: str
-    rol: str
-    is_expert: bool
