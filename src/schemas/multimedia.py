@@ -8,28 +8,27 @@ class Multimedia(BaseModel):
     bucket_path: str
     object_path: str
     url: str
+    name: str
+    extension: str
     
-class MultimediaGet(BaseModel):
-    bucket_path: str
-    object_path: str
-    url: str
-
-class MultimediaCreate(BaseModel):
-    bucket_path: str
-    object_path: str
-    url: str
+class InsertMultimedia(BaseModel):
     created_at: datetime
+    bucket_path: str
+    object_path: str
+    url: str
+    name: str
+    extension: str
+    
 
-class MultimediaUpdate(BaseModel):
+class UpdateMultimedia(BaseModel):
     id: int
-    bucket_path: str
-    object_path: str
-    url: str
-    created_at: datetime
+    created_at: Optional[datetime]
+    bucket_path: Optional[str]
+    object_path: Optional[str]
+    url: Optional[str]
+    name: Optional[str]
+    extension: Optional[str]
 
-class MultimediaDelete(BaseModel):
+
+class DeleteMultimedia(BaseModel):
     id: int
-    bucket_path: str
-    object_path: str
-    url: str
-    created_at: datetime
