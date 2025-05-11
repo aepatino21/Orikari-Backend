@@ -24,3 +24,4 @@ class UpdateStatistics(BaseModel):
 
 class DeleteStatistics(BaseModel):
     id: int
+    id_river: int

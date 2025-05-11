@@ -33,3 +33,5 @@ class UpdateLiterature(BaseModel):
 
 class DeleteLiterature(BaseModel):
     id_literature: int
+    id_river: int
+    id_multimedia: int

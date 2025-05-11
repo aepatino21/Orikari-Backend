@@ -2,33 +2,36 @@ from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime
 
-class Society(BaseModel):
-    id: int
+class Flora(BaseModel):
+    id_plant: int
     id_river: int
     id_multimedia: int
     created_at: datetime
-    title: str
+    name: str
+    scientific_name: str
     description: str
-    category: str
+    importance: str
 
-class InsertSociety(BaseModel):
+class InsertFlora(BaseModel):
     id_river: int
     id_multimedia: int
     created_at: datetime
-    title: str
+    name: str
+    scientific_name: str
     description: str
-    category: str
+    importance: str
 
-class UpdateSociety(BaseModel):
-    id: int
+class UpdateFlora(BaseModel):
+    id_plant: int
     id_river: int
     id_multimedia: int
     created_at: Optional[datetime]
-    title: Optional[str]
+    name: Optional[str]
+    scientific_name: Optional[str]
     description: Optional[str]
-    category: Optional[str]
+    importance: Optional[str]
 
-class DeleteSociety(BaseModel):
-    id: int
+class DeleteFlora(BaseModel):
+    id_plant: int
     id_river: int
     id_multimedia: int
