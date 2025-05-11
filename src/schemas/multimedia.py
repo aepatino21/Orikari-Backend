@@ -22,12 +22,12 @@ class InsertMultimedia(BaseModel):
 
 class UpdateMultimedia(BaseModel):
     id: int
-    created_at: Optional[datetime]
-    bucket_path: Optional[str]
-    object_path: Optional[str]
-    url: Optional[str]
-    name: Optional[str]
-    extension: Optional[str]
+    created_at: Optional[datetime] = None
+    bucket_path: Optional[str] = None
+    object_path: Optional[str] = None
+    url: Optional[str] = None
+    name: Optional[str] = None
+    extension: Optional[str] = None
 
 
 class DeleteMultimedia(BaseModel):
