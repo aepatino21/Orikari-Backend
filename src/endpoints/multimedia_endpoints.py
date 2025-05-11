@@ -8,17 +8,18 @@ router = APIRouter(prefix="/multimedia", tags=["Multimedia"])
 
 
 # Get all multimedia
-@router.get("/", response_model=List[Multimedia])
-async def get_rivers() -> List[Multimedia]:
+@router.get("/{id}", response_model=List[Multimedia])
+async def get_multimedia(id: int) -> List[Multimedia]:
     try:
 
         response = (
             supabase.table("Multimedia")
-            .select("*")
+            .select("created_at, bucket_path, object_path, url, name, extension")
+            .eq("id", id)
             .execute()
         )
 
-        return response.data 
+        return response.data[0] 
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
