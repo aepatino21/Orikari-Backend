@@ -1,6 +1,6 @@
 from config.supabase_config import supabase
 from schemas.society import Society, InsertSociety, UpdateSociety, DeleteSociety
-from pydantic import List
+from typing import List
 from fastapi import APIRouter, HTTPException
 from endpoints.multimedia_endpoints import get_multimedia
 
@@ -27,10 +27,21 @@ async def get_industry(id_river: int):
             multimedia_data = await get_multimedia(multimedia_id)
             multimedia.update(multimedia_data)
 
-        
-
         industry = {}
 
+        industry_hero = (
+            supabase.table('Multimedia')
+            .select('*')
+            .like('object_path', '/Society/Industry/industry_hero%')
+            .execute()
+        )
+
+        industry.update({
+            'industry_hero': industry_hero.data[0],
+            'industry': data
+        })
+
+        return industry
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
