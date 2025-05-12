@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from endpoints.multimedia_endpoints import multimedia_router
+from endpoints.foro_endpoints import foro_router
 
 # Instancia de FastAPI
 app = FastAPI(
@@ -24,3 +25,4 @@ def root():
 
 # Rutas 
 app.include_router(multimedia_router, prefix="/api")
+app.include_router(foro_router, prefix = "/api")
