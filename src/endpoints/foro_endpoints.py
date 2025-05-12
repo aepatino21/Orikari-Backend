@@ -27,7 +27,7 @@ async def createforo(foro: ForoCreate) -> Foro:
         raise HTTPException(status_code=500, detail=str(e))
     
 # Update
-@router.update("/update", response_model = Foro)
+@router.put("/update", response_model = Foro)
 def updateforo(foro: ForoUpdate) -> Foro:
     try:
         foro_data = foro.model_dump(exclude_none = True)
@@ -43,4 +43,20 @@ def updateforo(foro: ForoUpdate) -> Foro:
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+# Delete
+@router.delete("/delete", response_model = Foro)
+def deleteforo(foro: ForoDelete) -> Foro:
+    try:
+        foro_data = foro.model_dump()
+
+        response = (
+            supabase.table("Foro")
+            .delete(foro_data)
+            .eq("id", foro_data["id"])
+            .execute()
+        )
+
+        return response.data[0]
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 

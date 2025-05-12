@@ -25,9 +25,9 @@ class ForoCreate(BaseModel):
 class ForoUpdate(BaseModel):
     id_post: int
     id_user: int
-    content: str
-    created_at: datetime
-    category: str
+    content: Optional[str] = None
+    created_at: Optional[datetime] = None
+    category: Optional[str] = None
 
 class ForoDelete(BaseModel):
     id_post: int
