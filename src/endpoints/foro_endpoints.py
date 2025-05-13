@@ -9,6 +9,34 @@ router = APIRouter(prefix="/foro", tags=["Foro"])
 foro_router = router
 
 # Get.
+@router.get("/", response_model = List[Foro])
+async def get_all_foros() -> List[Foro]:
+    try:
+        response = (
+            supabase.table("Foro")
+            .select("*")
+            .execute()
+        )
+
+        info_foro = []
+
+        for foro in response.data:
+            foro_data = foro.model_dump()
+
+            # Buscamos la info del usuario.
+            user_data = await getuser_byid(foro_data["id_user"])
+            userdata = user_data[0]
+
+            foro_data.update({
+                "username": userdata["username"],
+                "icon_url": userdata["icon_url"]
+            })
+
+            info_foro.append(foro_data)                                                                                                                                 
+
+        return info_foro
+    except Exception as e:
+        pass
 
 # Insert.
 @router.post("/add")
@@ -18,7 +46,7 @@ async def createforo(foro: ForoCreate) -> Foro:
         foro_data['created_at'] = foro.created_at.isoformat()
 
         # Como el end no tiene un response model, retorna una lista con un diccionario dentro.
-        user_data = await getuser_byid(6)
+        user_data = await getuser_byid(foro_data["id_user"])
 
         # Se toma el diccionario ubicado en la primera posición de la lista.
         list_userdata = user_data[0]
