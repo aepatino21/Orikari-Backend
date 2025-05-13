@@ -18,7 +18,7 @@ class InsertUser(BaseModel):
     mail: str
     password: str
     role: str
-    icon_url: Optional[str]
+    icon_url: Optional[str] = None
 
 class UpdateUser(BaseModel):
     id: int

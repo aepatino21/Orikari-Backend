@@ -35,7 +35,7 @@ async def updateforo(foro: ForoUpdate) -> Foro:
         response = (
             supabase.table("Foro")
             .update(foro_data)
-            .eq("id", foro_data["id"])
+            .eq("id_post", foro_data["id_post"])
             .execute()
         )
 

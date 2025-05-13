@@ -15,9 +15,6 @@ users_router = router
 # Get all users
 @router.get("/", response_model=List[User])
 async def get_all_users() -> List[User]:
-    """
-    Get all users from the database.
-    """
     try:
         response = (
             supabase.table("User")
@@ -26,34 +23,13 @@ async def get_all_users() -> List[User]:
         )
 
         return response.data
-
-        '''data = response.data
-        users= []
-        for user in data:
-            user.append({
-                "id": user.get("id"),
-                "username": user.get("username"),
-                "created_at": user.get("created_at"),
-                "name": user.get("name"),
-                "correo": user.get("correo"),
-                "rol": user.get("rol"),
-                "is_expert": user.get("is_expert")
-            })
-            users.append(user)'''
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-        # if response.data:
-        #     return response.data
-        # else:
-        #     raise HTTPException(status_code=404, detail="No users found")
     
 # Create user
 @router.post("/add", response_model = User)
 async def create_user(user: InsertUser) -> User:
-    """
-    Create a new user in the database.
-    """
     try:
         user_data = user.model_dump(exclude_none = True)
 
@@ -87,7 +63,6 @@ async def create_user(user: InsertUser) -> User:
 @router.put("/update", response_model = User)
 async def update_user(user: UpdateUser) -> User:
     try:
-
         user_data = user.model_dump(exclude_none = True)
 
         response = (
@@ -109,7 +84,7 @@ async def delete_user(user: DeleteUser) -> User:
 
         response = (
             supabase.table("User")
-            .delete(user_data)
+            .delete()
             .eq("id", user_data["id"])
             .execute()
         )
