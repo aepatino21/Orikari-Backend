@@ -1,40 +1,39 @@
 from config.supabase_config import supabase
 from fastapi import APIRouter, HTTPException
 from schemas.river import River, DeleteRiver, InsertRiver, UpdateRiver
-from endpoints.multimedia_endpoints import get_multimedia
 from typing import List
+from endpoints.statistics_endpoints import get_statistics
 
 # Instancia del router.
 router = APIRouter(prefix="/river", tags = ["River"])
 
 
 # Get all rivers.
-@router.get('/', response_model=List[River])
-async def get_rivers() -> List[River]:
+@router.get('/{id}')
+async def get_rivers(id: int):
     try:
 
         response = (
             supabase.table("River")
-            .select("*")    
+            .select("name, created_at")
+            .eq("id", id)    
             .execute()
         )
 
-        data = response.data
-        rivers = []
-        multimedias = []
+        data = response.data[0]
+        river_id = id
+        rivers = {}
 
-        for river in data:
+        # Get statistics data
+        statistics = await get_statistics(river_id)
 
-            # Guarda la info de la multimedia del landing
-            landing_multimedia = river.get("id_multimedia")
-
-            # Formatear la response
-            rivers.append({
-                "river_id": river.get("id"),
-                "created_at": river.get("created_at"),
-                "name": river.get("name"),
-                "river_landing": ""
-            })
+        # Assemble the river JSON
+        rivers.update({
+            "id": river_id,
+            "name": data.get('name'),
+            "created_at": data.get('created_at'),
+            "statistics": statistics
+        })
 
         return rivers
 
