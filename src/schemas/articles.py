@@ -10,9 +10,11 @@ class Articles(BaseModel):
     source: str
     summary: str
     id_river: int
+    id_multimedia: int
 
 class InsertArticles(BaseModel):
     id_river: int
+    id_multimedia: int
     created_at: datetime
     title: str
     author: str
@@ -20,12 +22,14 @@ class InsertArticles(BaseModel):
     summary: str
     
 class UpdateArticles(BaseModel):
+    id_article: int
     id_river: int
-    created_at: Optional[datetime]
-    title: Optional[str]
-    author: Optional[str]
-    source: Optional[str]
-    summary: Optional[str]
+    id_multimedia: int
+    created_at: Optional[datetime] = None
+    title: Optional[str] = None
+    author: Optional[str] = None
+    source: Optional[str] = None
+    summary: Optional[str] = None
 
 class DeleteArticles(BaseModel):
     id_article: int

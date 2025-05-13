@@ -3,6 +3,7 @@ from fastapi import APIRouter, HTTPException
 from schemas.river import River, DeleteRiver, InsertRiver, UpdateRiver
 from typing import List
 from endpoints.statistics_endpoints import get_statistics
+from endpoints.articles_endpoints import get_latest_articles
 
 # Instancia del router.
 router = APIRouter(prefix="/river", tags = ["River"])
@@ -27,12 +28,16 @@ async def get_rivers(id: int):
         # Get statistics data
         statistics = await get_statistics(river_id)
 
+        # Get latest articles data
+        latest_articles = await get_latest_articles(river_id)
+
         # Assemble the river JSON
         rivers.update({
             "id": river_id,
             "name": data.get('name'),
             "created_at": data.get('created_at'),
-            "statistics": statistics
+            "statistics": statistics,
+            "latest_articles": latest_articles 
         })
 
         return rivers
