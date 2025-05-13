@@ -8,6 +8,7 @@ from endpoints.industry_endpoints import get_industry_images
 from endpoints.society_endpoints import get_society
 from endpoints.literature_endpoints import get_latest_literature
 from endpoints.collage_endpoints import get_latest_collage
+from endpoints.zoo_endpoints import get_zoo_hero
 
 # Instancia del router.
 router = APIRouter(prefix="/river", tags = ["River"])
@@ -21,7 +22,7 @@ async def get_rivers(id: int):
         response = (
             supabase.table("River")
             .select("name, created_at")
-            .eq("id", id)    
+            .eq("id", id)
             .execute()
         )
 
@@ -47,6 +48,9 @@ async def get_rivers(id: int):
         # Get the latest 6 images in collage
         latest_collage = await get_latest_collage(river_id)
 
+        # Get Zoo hero
+        zoo_hero = await get_zoo_hero()
+
         # Assemble the river JSON
         rivers.update({
             "id": river_id,
@@ -56,6 +60,7 @@ async def get_rivers(id: int):
             "latest_articles": latest_articles,
             "industry_images": industry_images,
             "society_images": society_images,
+            "zoo_hero": zoo_hero,
             "latest_literature": latest_literature,
             "latest_collage": latest_collage
         })
@@ -64,7 +69,7 @@ async def get_rivers(id: int):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
- 
+
 
  # Post a river
 @router.post('/add', response_model=River)
@@ -83,7 +88,7 @@ async def add_river(river: InsertRiver) -> River:
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-    
+
 
 # Update a River
 @router.put('/update', response_model=River)
@@ -103,7 +108,7 @@ async def update_river(river: UpdateRiver) -> River:
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-    
+
 
 # Delete a river
 @router.delete('/delete', response_model=River)
