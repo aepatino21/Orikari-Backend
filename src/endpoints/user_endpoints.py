@@ -26,7 +26,22 @@ async def get_all_users() -> List[User]:
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-    
+# Get User by ID.
+@router.get("/{id}", responde_model = User)
+async def getuser_byid(id: int):
+    try:
+        response = (
+            supabase.table("User")
+            .select("*")
+            .eq("id", id)
+            .execute()
+        )
+
+        return response.data
+    except Exception as e:
+        raise HTTPException(status_code = 500, detail = str(e))
+
+
 # Create user
 @router.post("/add", response_model = User)
 async def create_user(user: InsertUser) -> User:

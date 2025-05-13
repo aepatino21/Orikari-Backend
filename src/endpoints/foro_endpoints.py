@@ -1,6 +1,7 @@
 from config.supabase_config import supabase
 from fastapi import APIRouter, HTTPException
 from schemas.foro import ForoCreate, ForoDelete,ForoGet,ForoUpdate, Foro
+from endpoints.user_endpoints import getuser_byid
 from typing import List
 
 router = APIRouter(prefix="/foro", tags=["Foro"])
@@ -10,11 +11,15 @@ foro_router = router
 # Get.
 
 # Insert.
-@router.post("/add", response_model = Foro)
+@router.post("/add")
 async def createforo(foro: ForoCreate) -> Foro:
     try:
         foro_data = foro.model_dump()
         foro_data['created_at'] = foro.created_at.isoformat()
+
+        user_data = await getuser_byid()
+
+        
 
         response = (
             supabase.table("Foro")
@@ -51,7 +56,7 @@ async def deleteforo(foro: ForoDelete) -> Foro:
 
         response = (
             supabase.table("Foro")
-            .delete(foro_data)
+            .delete()
             .eq("id", foro_data["id"])
             .execute()
         )
