@@ -18,8 +18,8 @@ class InsertResponse(BaseModel):
 class UpdateResponse(BaseModel):
     id_foro: int
     id_user: int
-    created_at: Optional[datetime]
-    response: Optional[str]
+    created_at: Optional[datetime] = None
+    response: Optional[str] = None
 
 class DeleteResponse(BaseModel):
     id_responser: int

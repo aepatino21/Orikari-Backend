@@ -12,7 +12,7 @@ response_router = router
 @router.get("/{id_foro}")
 async def get_all_responses(id_foro: int):
     try:
-        
+
         response = (
             supabase.table("Response")
             .select("*")
@@ -20,17 +20,17 @@ async def get_all_responses(id_foro: int):
             .execute()
         )
 
-        print(response.data)
+
         if not response.data:
             raise HTTPException(status_code = 404, detail = "No existen respuestas a este foro!")
 
-        return response.data
+
     except Exception as e:
         raise HTTPException(status_code = 500, detail = str(e))
 
 @router.post("/add", response_model = Response)
 async def create_response(response: InsertResponse) -> Response:
-    try:  
+    try:
         response_data = response.model_dump()
         response_data['created_at'] = response.created_at.isoformat()
 
