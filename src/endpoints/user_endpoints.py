@@ -1,5 +1,5 @@
 from config.supabase_config import supabase
-from schemas.user import User, UserCreate, UserUpdate, UserDelete, UserGet
+from schemas.user import User, UpdateUser, DeleteUser, InsertUser
 from fastapi import APIRouter, HTTPException
 from typing import List
 
@@ -7,11 +7,11 @@ from typing import List
 # Create a router instance
 router = APIRouter(
     prefix="/user",
-    tags=["user"]
+    tags=["User"]
 )
 
 # Get all users
-@router.get("/", response_model=List[UserGet])
+@router.get("/", response_model=List[User])
 async def get_all_users():
     """
     Get all users from the database.
@@ -48,36 +48,38 @@ async def get_all_users():
     
 # Create user
 @router.post("/add")
-async def create_user(user: UserCreate):
+async def create_user(user: InsertUser):
     """
     Create a new user in the database.
     """
     try:
+        user_data = user.model_dump()
+
         # Check if the user already exists with the same email or username
         existing_user = (
             supabase.table("User")
             .select("*")
-            .eq("correo", user.correo)
-            .or_("username.eq." + user.username)
+            .eq("mail", user_data["mail"])
+            .or_("username", user_data["usernames"])
             .execute()
         )
 
         if existing_user.data:
-            raise HTTPException(status_code=400, detail="User already exists")
+            raise HTTPException(status_code = 400, detail = "User already exists")
         
         # Insert the new user into the database
         
         response = (
             supabase.table("User")
-            .insert(user.dict())
+            .insert(user_data)
             .execute()
         )
 
         if response.data:
-            return response.data
+            return response.data[0]
         else:
-            raise HTTPException(status_code=404, detail="User not created")
+            raise HTTPException(status_code = 404, detail="User not created")
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code = 500, detail=str(e))
     
 # Update user
