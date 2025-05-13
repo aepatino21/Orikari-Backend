@@ -30,14 +30,14 @@ class InsertFauna(BaseModel):
 class UpdateFauna(BaseModel):
     id_river: int
     id_multimedia: int
-    created_at: Optional[datetime]
-    name: Optional[str]
-    scientific_name: Optional[str]
-    description: Optional[str]
-    weight: Optional[str]
-    size: Optional[str]
-    location: Optional[str]
-    diet: Optional[str]
+    created_at: Optional[datetime] = None
+    name: Optional[str] = None
+    scientific_name: Optional[str] = None
+    description: Optional[str] = None
+    weight: Optional[str] = None
+    size: Optional[str] = None
+    location: Optional[str] = None
+    diet: Optional[str] = None
 
 class DeleteFauna(BaseModel):
     id_animal: int

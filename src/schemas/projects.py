@@ -23,10 +23,10 @@ class UpdateProjects(BaseModel):
     id_project: int
     id_user: int
     id_user_multimedia: int
-    created_at: Optional[datetime]
-    title: Optional[str]
-    project: Optional[str]
-    category: Optional[str]
+    created_at: Optional[datetime] = None
+    title: Optional[str] = None
+    project: Optional[str] = None
+    category: Optional[str] = None
 
 class DeleteProjects(BaseModel):
     id_project: int

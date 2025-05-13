@@ -7,9 +7,10 @@ from typing import List
 # Instancia del router.
 router = APIRouter(prefix="/user_multimedia", tags = ["User Multimedia"])
 
-#Get all user multimedia
+
+#Get user multimedia
 @router.get("/{id_usermultimedia}", response_model=List[UserMultimedia])
-async def get_all_user_multimedia(id_usermultimedia: int) -> List[UserMultimedia]:
+async def get_user_multimedia(id_usermultimedia: int) -> List[UserMultimedia]:
     try:
         response = (
             supabase.table("UserMultimedia")
@@ -19,9 +20,11 @@ async def get_all_user_multimedia(id_usermultimedia: int) -> List[UserMultimedia
         )
 
         return response.data[0]
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-    
+
+
 # Post a user multimedia
 @router.post("/add", response_model=UserMultimedia)
 async def add_usermultimedia(user_multimedia: InsertUserMultimedia)-> UserMultimedia:
@@ -39,7 +42,8 @@ async def add_usermultimedia(user_multimedia: InsertUserMultimedia)-> UserMultim
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-    
+
+
 #Update UserMultimedia
 @router.put("/update", response_model=UserMultimedia)
 async def update_usermultimedia(user_multimedia: UpdateUserMultimedia) -> UserMultimedia:
@@ -57,7 +61,8 @@ async def update_usermultimedia(user_multimedia: UpdateUserMultimedia) -> UserMu
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-    
+
+
 #Delete UserMultimedia
 @router.delete("/delete", response_model=DeleteUserMultimedia)
 async def delete_usermultimedia(user_multimedia: DeleteUserMultimedia) -> DeleteUserMultimedia:
@@ -74,6 +79,7 @@ async def delete_usermultimedia(user_multimedia: DeleteUserMultimedia) -> Delete
         return response.data[0]
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-    
+
+
 #Exportar el router
 user_multimedia_router = router

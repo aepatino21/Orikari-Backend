@@ -25,11 +25,11 @@ class UpdateFlora(BaseModel):
     id_plant: int
     id_river: int
     id_multimedia: int
-    created_at: Optional[datetime]
-    name: Optional[str]
-    scientific_name: Optional[str]
-    description: Optional[str]
-    importance: Optional[str]
+    created_at: Optional[datetime] = None
+    name: Optional[str] = None
+    scientific_name: Optional[str] = None
+    description: Optional[str] = None
+    importance: Optional[str] = None
 
 class DeleteFlora(BaseModel):
     id_plant: int
