@@ -25,26 +25,15 @@ async def get_rivers() -> List[River]:
 
         for river in data:
 
-            # Guarda la ID de la multimedia de un river
-            multimedia_list = river.get("id_multimedia")
-
-            for multimedia_id in multimedia_list:
-                multimedia = await get_multimedia(multimedia_id)
-                multimedias.append({
-                    "created_at": multimedia.get("created_at"),
-                    "bucket_path": multimedia.get("bucket_path"),
-                    "object_path": multimedia.get("object_path"),
-                    "url": multimedia.get("url"),
-                    "name": multimedia.get("name"),
-                    "extension": multimedia.get("extension")
-                })
+            # Guarda la info de la multimedia del landing
+            landing_multimedia = river.get("id_multimedia")
 
             # Formatear la response
             rivers.append({
                 "river_id": river.get("id"),
                 "created_at": river.get("created_at"),
                 "name": river.get("name"),
-                "river_multimedia": multimedias
+                "river_landing": ""
             })
 
         return rivers
