@@ -10,20 +10,24 @@ router = APIRouter(
     tags=["User"]
 )
 
+users_router = router
+
 # Get all users
 @router.get("/", response_model=List[User])
-async def get_all_users():
+async def get_all_users() -> List[User]:
     """
     Get all users from the database.
     """
     try:
         response = (
-            supabase.table("Usuario")
+            supabase.table("User")
             .select("*")
             .execute()
         )
 
-        data = response.data
+        return response.data
+
+        '''data = response.data
         users= []
         for user in data:
             user.append({
@@ -35,9 +39,7 @@ async def get_all_users():
                 "rol": user.get("rol"),
                 "is_expert": user.get("is_expert")
             })
-            users.append(user)
-
-        return users
+            users.append(user)'''
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -47,20 +49,19 @@ async def get_all_users():
         #     raise HTTPException(status_code=404, detail="No users found")
     
 # Create user
-@router.post("/add")
-async def create_user(user: InsertUser):
+@router.post("/add", response_model = User)
+async def create_user(user: InsertUser) -> User:
     """
     Create a new user in the database.
     """
     try:
-        user_data = user.model_dump()
+        user_data = user.model_dump(exclude_none = True)
 
         # Check if the user already exists with the same email or username
         existing_user = (
             supabase.table("User")
             .select("*")
-            .eq("mail", user_data["mail"])
-            .or_("username", user_data["usernames"])
+            .or_("username.eq." + user_data["username"] + ",mail.eq." + user_data["mail"])  
             .execute()
         )
 
@@ -78,8 +79,44 @@ async def create_user(user: InsertUser):
         if response.data:
             return response.data[0]
         else:
-            raise HTTPException(status_code = 404, detail="User not created")
+            raise HTTPException(status_code = 404, detail = "User not created")
     except Exception as e:
-        raise HTTPException(status_code = 500, detail=str(e))
+        raise HTTPException(status_code = 500, detail = str(e))
     
 # Update user
+@router.put("/update", response_model = User)
+async def update_user(user: UpdateUser) -> User:
+    try:
+
+        user_data = user.model_dump(exclude_none = True)
+
+        response = (
+            supabase.table("User")
+            .update(user_data)
+            .eq("id", user_data["id"])
+            .execute()
+        )
+
+        return response.data[0]
+    except Exception as e:
+        raise HTTPException(status_code = 500, detail = str(e))
+
+# Delete User
+@router.delete("/delete", response_model = User)
+async def delete_user(user: DeleteUser) -> User:
+    try:
+        user_data = user.model_dump()
+
+        response = (
+            supabase.table("User")
+            .delete(user_data)
+            .eq("id", user_data["id"])
+            .execute()
+        )
+
+        return response.data
+    
+    except Exception as e:
+        raise HTTPException(status_code = 500, detail = str(e))
+
+    

@@ -5,6 +5,7 @@ from endpoints.river_endpoints import rivers_router
 from endpoints.foro_endpoints import foro_router
 from endpoints.landing_endpoints import landing_router
 from endpoints.statistics_endpoints import statistics_router
+from endpoints.user_endpoints import users_router
 
 # Instancia de FastAPI
 app = FastAPI(
@@ -32,3 +33,4 @@ app.include_router(rivers_router, prefix="/api")
 app.include_router(foro_router, prefix ="/api")
 app.include_router(landing_router, prefix="/api")
 app.include_router(statistics_router, prefix="/api")
+app.include_router(users_router, prefix = "/api")

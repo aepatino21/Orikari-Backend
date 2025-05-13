@@ -28,7 +28,7 @@ async def createforo(foro: ForoCreate) -> Foro:
     
 # Update
 @router.put("/update", response_model = Foro)
-def updateforo(foro: ForoUpdate) -> Foro:
+async def updateforo(foro: ForoUpdate) -> Foro:
     try:
         foro_data = foro.model_dump(exclude_none = True)
 
@@ -45,7 +45,7 @@ def updateforo(foro: ForoUpdate) -> Foro:
 
 # Delete
 @router.delete("/delete", response_model = Foro)
-def deleteforo(foro: ForoDelete) -> Foro:
+async def deleteforo(foro: ForoDelete) -> Foro:
     try:
         foro_data = foro.model_dump()
 
