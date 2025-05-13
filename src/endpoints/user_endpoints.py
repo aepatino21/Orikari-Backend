@@ -27,8 +27,8 @@ async def get_all_users() -> List[User]:
         raise HTTPException(status_code=500, detail=str(e))
 
 # Get User by ID.
-@router.get("/{id}", responde_model = User)
-async def getuser_byid(id: int):
+@router.get('/{id}')
+async def getuser_byid(id: int) -> User:
     try:
         response = (
             supabase.table("User")

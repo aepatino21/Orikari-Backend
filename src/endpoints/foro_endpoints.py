@@ -17,9 +17,14 @@ async def createforo(foro: ForoCreate) -> Foro:
         foro_data = foro.model_dump()
         foro_data['created_at'] = foro.created_at.isoformat()
 
-        user_data = await getuser_byid()
+        # Como el end no tiene un response model, retorna una lista con un diccionario dentro.
+        user_data = await getuser_byid(6)
 
-        
+        # Se toma el diccionario ubicado en la primera posición de la lista.
+        list_userdata = user_data[0]
+
+        if(list_userdata["role"] != 'experto'):
+            raise HTTPException(status_code = 400, detail = "No tienes los permisos/rol para enviar un foro!")
 
         response = (
             supabase.table("Foro")
