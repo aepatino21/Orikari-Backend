@@ -37,6 +37,30 @@ async def get_all_foros():
     except Exception as e:
         raise HTTPException(status_code = 500, detail = str(e))
 
+# Get Foro by ID.
+@router.get("/{id_post}")
+async def getforo_byid(id_post: int):
+    try:
+        response = (
+            supabase.table("Foro")
+            .select("*")
+            .eq("id_post", id_post)
+            .execute()
+        )
+
+        foro_data = response.data[0]    
+
+        user_data = await getuser_byid(foro_data["id_user"])
+
+        foro_data.update({
+            "username" : user_data["username"],
+            "icon-url": user_data["icon_url"]
+        })
+
+        return foro_data
+    except Exception as e:
+        raise HTTPException(status_code = 500, detail = str(e))
+
 # Insert.
 @router.post("/add")
 async def createforo(foro: ForoCreate) -> Foro:

@@ -19,6 +19,7 @@ from endpoints.collage_endpoints import collage_router
 from endpoints.fauna_endpoints import fauna_router
 from endpoints.flora_endpoints import flora_router
 from endpoints.zoo_endpoints import zoo_router
+from endpoints.response_endpoints import response_router
 
 
 # Instancia de FastAPI
@@ -53,3 +54,4 @@ app.include_router(industry_router, prefix='/api')
 app.include_router(fauna_router, prefix='/api')
 app.include_router(zoo_router, prefix='/api')
 app.include_router(flora_router, prefix='/api')
+app.include_router(response_router, prefix = "/api")
