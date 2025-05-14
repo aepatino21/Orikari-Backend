@@ -15,6 +15,7 @@ from endpoints.cinematography_endpoints import cinematography_router
 from endpoints.etnias_endpoints import etnias_router
 from endpoints.literature_endpoints import literature_router
 from endpoints.user_multimedia_endpoints import user_multimedia_router
+from endpoints.collage_endpoints import collage_router
 
 
 # Instancia de FastAPI
@@ -53,3 +54,4 @@ app.include_router(cinematography_router, prefix='/api')
 app.include_router(etnias_router, prefix='/api')
 app.include_router(literature_router, prefix='/api')
 app.include_router(user_multimedia_router, prefix='/api')
+app.include_router(collage_router, prefix='/api')
