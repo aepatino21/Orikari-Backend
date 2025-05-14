@@ -23,10 +23,10 @@ class UpdateSociety(BaseModel):
     id: int
     id_river: int
     id_multimedia: int
-    created_at: Optional[datetime]
-    title: Optional[str]
-    description: Optional[str]
-    category: Optional[str]
+    created_at: Optional[datetime] = None
+    title: Optional[str] = None
+    description: Optional[str] = None
+    category: Optional[str] = None
 
 class DeleteSociety(BaseModel):
     id: int

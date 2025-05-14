@@ -7,6 +7,34 @@ from endpoints.multimedia_endpoints import get_multimedia
 # Instancia de router
 router = APIRouter(prefix='/industry', tags=['Industry'])
 
+
+# Get all industry images
+@router.get('/images/{id_river}')
+async def get_industry_images(id_river: int):
+    try:
+
+        response = (
+            supabase.table('Society')
+            .select('id_multimedia')
+            .eq('id_river', id_river)
+            .eq('category', 'industry')
+            .execute()
+        )
+
+        data = response.data
+        images = {}
+        
+        for multimedia in data:
+            multimedia_id = multimedia.get('id_multimedia')
+            multimedia_data = await get_multimedia(multimedia_id)
+            images.update(multimedia_data)
+
+        return images 
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 # Get all industry
 @router.get('/{id_river}')
 async def get_industry(id_river: int):
@@ -48,13 +76,66 @@ async def get_industry(id_river: int):
 
 
 # Insert industry
+@router.post('/add', response_model=Society)
+async def add_industry(industry: InsertSociety) -> Society:
+    try:
+
+        industry_data = industry.model_dump()
+
+        response = (
+            supabase.table('Society')
+            .insert(industry_data)
+            .execute()
+        )
+
+        return response.data[0]
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 # Update industry
+@router.put('/update', response_model=Society)
+async def update_industry(industry: UpdateSociety) -> Society:
+    try:
+
+        industry_data = industry.model_dump(exclude_none=True)
+
+        response = (
+            supabase.table('Society')
+            .update(industry_data)
+            .eq('id', industry_data['id'])
+            .eq('id_river', industry_data['id_river'])
+            .eq('id_multimedia', industry_data['id_multimedia'])
+            .execute()
+        )
+
+        return response.data[0]
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 # Delete industry
+@router.delete('/delete', response_model=Society)
+async def delete_industry(industry: DeleteSociety) -> Society:
+    try:
 
+        industry_data = industry.model_dump()
+
+        response = (
+            supabase.table('Society')
+            .delete()
+            .eq('id', industry_data['id'])
+            .eq('id_river', industry_data['id_river'])
+            .eq('id_multimedia', industry_data['id_multimedia'])
+            .execute()
+        )
+
+        return response.data[0]
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 # Exportar el router
