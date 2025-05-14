@@ -1,5 +1,5 @@
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
+#from fastapi import FastAPI
+#from fastapi.middleware.cors import CORSMiddleware
 from endpoints.multimedia_endpoints import multimedia_router
 # !DEPRECATED: from endpoints.river_endpoints import rivers_router
 from endpoints.foro_endpoints import foro_router
@@ -28,7 +28,6 @@ app = FastAPI(
     description="Backend for Orikari project made with FastAPI + Supabase"
 )
 
-34IHIFJ JVB2    I PKJF BPMJD QBWV   ;,K huoi
 
 # CORS
 app.add_middleware(
