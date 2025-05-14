@@ -25,11 +25,11 @@ class UpdateLiterature(BaseModel):
     id_literature: int
     id_river: int
     id_multimedia: int
-    created_at: Optional[datetime]
-    title: Optional[str]
-    author: Optional[str]
-    publication_year: Optional[str]
-    summary: Optional[str]
+    created_at: Optional[datetime] = None
+    title: Optional[str] = None
+    author: Optional[str] = None
+    publication_year: Optional[str] = None
+    summary: Optional[str] = None
 
 class DeleteLiterature(BaseModel):
     id_literature: int

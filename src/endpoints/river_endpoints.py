@@ -6,6 +6,7 @@ from endpoints.statistics_endpoints import get_statistics
 from endpoints.articles_endpoints import get_latest_articles
 from endpoints.industry_endpoints import get_industry_images
 from endpoints.society_endpoints import get_society
+from endpoints.literature_endpoints import get_latest_literature
 
 # Instancia del router.
 router = APIRouter(prefix="/river", tags = ["River"])
@@ -39,6 +40,9 @@ async def get_rivers(id: int):
         # Get Water & Society images
         society_images = await get_society()
 
+        # Get the latest 6 books in library
+        latest_literature = await get_latest_literature(river_id)
+
         # Assemble the river JSON
         rivers.update({
             "id": river_id,
@@ -47,7 +51,8 @@ async def get_rivers(id: int):
             "statistics": statistics,
             "latest_articles": latest_articles,
             "industry_images": industry_images,
-            "society_images": society_images
+            "society_images": society_images,
+            "latest_literature": latest_literature
         })
 
         return rivers
