@@ -13,62 +13,62 @@ from endpoints.zoo_endpoints import get_zoo_hero
 # Instancia del router.
 router = APIRouter(prefix="/river", tags = ["River"])
 
+# !! DEPRECATED
+# # Get all rivers.
+# @router.get('/{id}')
+# async def get_rivers(id: int):
+#     try:
 
-# Get all rivers.
-@router.get('/{id}')
-async def get_rivers(id: int):
-    try:
+#         response = (
+#             supabase.table("River")
+#             .select("name, created_at")
+#             .eq("id", id)
+#             .execute()
+#         )
 
-        response = (
-            supabase.table("River")
-            .select("name, created_at")
-            .eq("id", id)
-            .execute()
-        )
+#         data = response.data[0]
+#         river_id = id
+#         rivers = {}
 
-        data = response.data[0]
-        river_id = id
-        rivers = {}
+#         # Get statistics data
+#         statistics = await get_statistics(river_id)
 
-        # Get statistics data
-        statistics = await get_statistics(river_id)
+#         # Get latest articles data
+#         latest_articles = await get_latest_articles(river_id)
 
-        # Get latest articles data
-        latest_articles = await get_latest_articles(river_id)
+#         # Get industry images
+#         industry_images = await get_industry_images(river_id)
 
-        # Get industry images
-        industry_images = await get_industry_images(river_id)
+#         # Get Water & Society images
+#         society_images = await get_society()
 
-        # Get Water & Society images
-        society_images = await get_society()
+#         # Get the latest 6 books in library
+#         latest_literature = await get_latest_literature(river_id)
 
-        # Get the latest 6 books in library
-        latest_literature = await get_latest_literature(river_id)
+#         # Get the latest 6 images in collage
+#         latest_collage = await get_latest_collage(river_id)
 
-        # Get the latest 6 images in collage
-        latest_collage = await get_latest_collage(river_id)
+#         # Get Zoo hero
+#         zoo_hero = await get_zoo_hero()
 
-        # Get Zoo hero
-        zoo_hero = await get_zoo_hero()
+#         # Assemble the river JSON
+#         rivers.update({
+#             "id": river_id,
+#             "name": data.get('name'),
+#             "created_at": data.get('created_at'),
+#             "statistics": statistics,
+#             "latest_articles": latest_articles,
+#             "industry_images": industry_images,
+#             "society_images": society_images,
+#             "zoo_hero": zoo_hero,
+#             "latest_literature": latest_literature,
+#             "latest_collage": latest_collage
+#         })
 
-        # Assemble the river JSON
-        rivers.update({
-            "id": river_id,
-            "name": data.get('name'),
-            "created_at": data.get('created_at'),
-            "statistics": statistics,
-            "latest_articles": latest_articles,
-            "industry_images": industry_images,
-            "society_images": society_images,
-            "zoo_hero": zoo_hero,
-            "latest_literature": latest_literature,
-            "latest_collage": latest_collage
-        })
+#         return rivers
 
-        return rivers
-
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=str(e))
 
 
  # Post a river

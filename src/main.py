@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from endpoints.multimedia_endpoints import multimedia_router
-from endpoints.river_endpoints import rivers_router
+# !DEPRECATED: from endpoints.river_endpoints import rivers_router
 from endpoints.foro_endpoints import foro_router
 from endpoints.landing_endpoints import landing_router
 from endpoints.statistics_endpoints import statistics_router
@@ -45,7 +45,7 @@ def root():
 
 # Rutas
 app.include_router(multimedia_router, prefix="/api")
-app.include_router(rivers_router, prefix="/api")
+# !DEPRECRATED: app.include_router(rivers_router, prefix="/api")
 app.include_router(foro_router, prefix ="/api")
 app.include_router(landing_router, prefix="/api")
 app.include_router(statistics_router, prefix="/api")
