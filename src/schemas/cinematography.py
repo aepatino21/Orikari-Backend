@@ -8,7 +8,7 @@ class Cinematography(BaseModel):
     created_at: datetime
     id_multimedia: int
     title: str
-    type: str
+    movie_type: str
     publication_year: datetime
     director: str
     duration: str
@@ -20,20 +20,21 @@ class InsertCinematography(BaseModel):
     created_at: datetime
     id_multimedia: int
     title: str
-    type: str
+    movie_type: str
     publication_year: datetime
     director: str
     duration: str
 
 class UpdateCinematography(BaseModel):
+    id_movie: int
     id_river: int
-    created_at: Optional[datetime]
-    id_multimedia: Optional[int]
-    title: Optional[str]
-    type: Optional[str]
-    publication_year: Optional[datetime]
-    director: Optional[str]
-    duration: Optional[str]
+    id_multimedia: int
+    created_at: Optional[datetime] = None
+    title: Optional[str] = None
+    movie_type: Optional[str] = None
+    publication_year: Optional[datetime] = None
+    director: Optional[str] = None
+    duration: Optional[str] = None
 
 class DeleteCinematography(BaseModel):
     id_movie: int
