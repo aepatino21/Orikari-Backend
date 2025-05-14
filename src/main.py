@@ -10,6 +10,7 @@ from endpoints.user_endpoints import users_router
 from endpoints.industry_endpoints import industry_router
 from endpoints.society_endpoints import society_router
 from endpoints.sports_endpoints import sports_router
+from endpoints.ecotourism_endpoints import ecotourism_router
 
 # Instancia de FastAPI
 app = FastAPI(
@@ -42,3 +43,4 @@ app.include_router(users_router, prefix = "/api")
 app.include_router(industry_router, prefix='/api')
 app.include_router(society_router, prefix='/api')
 app.include_router(sports_router, prefix='/api')
+app.include_router(ecotourism_router, prefix='/api')
