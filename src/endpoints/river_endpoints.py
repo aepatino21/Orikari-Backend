@@ -5,6 +5,7 @@ from typing import List
 from endpoints.statistics_endpoints import get_statistics
 from endpoints.articles_endpoints import get_latest_articles
 from endpoints.industry_endpoints import get_industry_images
+from endpoints.society_endpoints import get_society
 
 # Instancia del router.
 router = APIRouter(prefix="/river", tags = ["River"])
@@ -35,6 +36,9 @@ async def get_rivers(id: int):
         # Get industry images
         industry_images = await get_industry_images(river_id)
 
+        # Get Water & Society images
+        society_images = await get_society()
+
         # Assemble the river JSON
         rivers.update({
             "id": river_id,
@@ -42,7 +46,8 @@ async def get_rivers(id: int):
             "created_at": data.get('created_at'),
             "statistics": statistics,
             "latest_articles": latest_articles,
-            "industry_images": industry_images
+            "industry_images": industry_images,
+            "society_images": society_images
         })
 
         return rivers
