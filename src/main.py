@@ -14,6 +14,7 @@ from endpoints.ecotourism_endpoints import ecotourism_router
 from endpoints.cinematography_endpoints import cinematography_router
 from endpoints.etnias_endpoints import etnias_router
 from endpoints.literature_endpoints import literature_router
+from endpoints.collage_endpoints import collage_router
 
 
 # Instancia de FastAPI
@@ -51,3 +52,4 @@ app.include_router(ecotourism_router, prefix='/api')
 app.include_router(cinematography_router, prefix='/api')
 app.include_router(etnias_router, prefix='/api')
 app.include_router(literature_router, prefix='/api')
+app.include_router(collage_router, prefix='/api')
