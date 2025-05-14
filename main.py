@@ -28,6 +28,8 @@ app = FastAPI(
     description="Backend for Orikari project made with FastAPI + Supabase"
 )
 
+34IHIFJ JVB2    I PKJF BPMJD QBWV   ;,K huoi
+
 # CORS
 app.add_middleware(
     CORSMiddleware,
@@ -64,4 +66,3 @@ app.include_router(cinematography_router, prefix='/api')
 app.include_router(collage_router, prefix='/api')
 app.include_router(ecotourism_router, prefix='/api')
 app.include_router(literature_router, prefix='/api')
-
