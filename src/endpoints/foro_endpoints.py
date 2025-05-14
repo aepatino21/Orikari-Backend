@@ -9,8 +9,8 @@ router = APIRouter(prefix="/foro", tags=["Foro"])
 foro_router = router
 
 # Get.
-@router.get("/", response_model = List[Foro])
-async def get_all_foros() -> List[Foro]:
+@router.get("/")
+async def get_all_foros():
     try:
         response = (
             supabase.table("Foro")
@@ -21,22 +21,21 @@ async def get_all_foros() -> List[Foro]:
         info_foro = []
 
         for foro in response.data:
-            foro_data = foro.model_dump()
 
             # Buscamos la info del usuario.
-            user_data = await getuser_byid(foro_data["id_user"])
-            userdata = user_data[0]
+            user_data = await getuser_byid(foro["id_user"])
+            userdata = user_data
 
-            foro_data.update({
+            foro.update({
                 "username": userdata["username"],
                 "icon_url": userdata["icon_url"]
             })
 
-            info_foro.append(foro_data)                                                                                                                                 
+            info_foro.append(foro)                                                                                                                                 
 
         return info_foro
     except Exception as e:
-        pass
+        raise HTTPException(status_code = 500, detail = str(e))
 
 # Insert.
 @router.post("/add")
@@ -49,9 +48,9 @@ async def createforo(foro: ForoCreate) -> Foro:
         user_data = await getuser_byid(foro_data["id_user"])
 
         # Se toma el diccionario ubicado en la primera posición de la lista.
-        list_userdata = user_data[0]
+        userdata = user_data
 
-        if(list_userdata["role"] != 'experto'):
+        if userdata["role"] != 'experto':
             raise HTTPException(status_code = 400, detail = "No tienes los permisos/rol para enviar un foro!")
 
         response = (

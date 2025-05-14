@@ -37,7 +37,7 @@ async def getuser_byid(id: int) -> User:
             .execute()
         )
 
-        return response.data
+        return response.data[0]
     except Exception as e:
         raise HTTPException(status_code = 500, detail = str(e))
 
@@ -47,6 +47,7 @@ async def getuser_byid(id: int) -> User:
 async def create_user(user: InsertUser) -> User:
     try:
         user_data = user.model_dump(exclude_none = True)
+        user_data["role"] = user.role.lower()
 
         # Check if the user already exists with the same email or username
         existing_user = (
