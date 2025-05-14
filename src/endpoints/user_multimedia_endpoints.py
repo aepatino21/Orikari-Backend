@@ -9,13 +9,13 @@ router = APIRouter(prefix="/user_multimedia", tags = ["User Multimedia"])
 
 
 #Get user multimedia
-@router.get("/{id_usermultimedia}", response_model=List[UserMultimedia])
-async def get_user_multimedia(id_usermultimedia: int) -> List[UserMultimedia]:
+@router.get("/{id_usermultimedia}", response_model=UserMultimedia)
+async def get_user_multimedia(id_usermultimedia: int) -> UserMultimedia:
     try:
         response = (
             supabase.table("UserMultimedia")
             .select("*")
-            .eq("id_user_multimedia", id_usermultimedia)
+            .eq("id_usermultimedia", id_usermultimedia)
             .execute()
         )
 
