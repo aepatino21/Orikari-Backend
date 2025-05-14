@@ -12,6 +12,7 @@ from endpoints.society_endpoints import society_router
 from endpoints.sports_endpoints import sports_router
 from endpoints.ecotourism_endpoints import ecotourism_router
 from endpoints.cinematography_endpoints import cinematography_router
+from endpoints.etnias_endpoints import etnias_router
 
 
 # Instancia de FastAPI
@@ -47,3 +48,4 @@ app.include_router(society_router, prefix='/api')
 app.include_router(sports_router, prefix='/api')
 app.include_router(ecotourism_router, prefix='/api')
 app.include_router(cinematography_router, prefix='/api')
+app.include_router(etnias_router, prefix='/api')

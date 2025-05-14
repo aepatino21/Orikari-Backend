@@ -20,9 +20,9 @@ class InsertEtnias(BaseModel):
 class UpdateEtnias(BaseModel):
     id_river: int
     id_multimedia: int
-    created_at: Optional[datetime]
-    name: Optional[str]
-    description: Optional[str]
+    created_at: Optional[datetime] = None
+    name: Optional[str] = None
+    description: Optional[str] = None
 
 class DeleteEtnias(BaseModel):
     id_etnia: int
