@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+from fastapi.requests import Request
 from endpoints.multimedia_endpoints import multimedia_router
 # !DEPRECATED: from endpoints.river_endpoints import rivers_router
 from endpoints.foro_endpoints import foro_router
@@ -39,15 +41,27 @@ app.add_middleware(
 )
 
 # Necesario para Vercel (maneja la solicitud como una función serverless)
-def handler(request):
-    from fastapi.responses import JSONResponse
-    from fastapi.requests import Request
+async def handler(request: Request):
+    scope = {
+        "type": "http",
+        "method": request.method,
+        "path": request.url.path,
+        "headers": request.headers,
+    }
+    body = await request.body()
+    
+    async def receive():
+        return {"type": "http.request", "body": body}
+    
+    async def send(message):
+        if message["type"] == "http.response.start":
+            pass
+        elif message["type"] == "http.response.body":
+            return JSONResponse(content=message.get("body", b""))
+    
+    await app(scope, receive, send)
+    return JSONResponse(content={"detail": "Request processed"})
 
-    async def app_handler(req: Request):
-        response = await app(req.scope, req.receive)
-        return JSONResponse(content=response.body)
-
-    return app_handler(request)
 
 # root
 @app.get("/")
