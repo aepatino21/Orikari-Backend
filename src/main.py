@@ -1,7 +1,5 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
-from fastapi.requests import Request
 from endpoints.multimedia_endpoints import multimedia_router
 # !DEPRECATED: from endpoints.river_endpoints import rivers_router
 from endpoints.foro_endpoints import foro_router
@@ -23,7 +21,6 @@ from endpoints.flora_endpoints import flora_router
 from endpoints.zoo_endpoints import zoo_router
 from endpoints.response_endpoints import response_router
 from endpoints.projects_endpoints import projects_router
-
 
 # Instancia de FastAPI
 app = FastAPI(
