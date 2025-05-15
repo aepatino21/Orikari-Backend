@@ -29,7 +29,7 @@ async def get_industry_images(id_river: int):
         for multimedia in data:
             multimedia_id = multimedia.get('id_multimedia')
             multimedia_data = await get_multimedia(multimedia_id)
-            images.update(multimedia_data)
+            images.append(multimedia_data)
 
         return images
 
