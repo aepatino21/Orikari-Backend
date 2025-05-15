@@ -2,7 +2,7 @@ from config.supabase_config import supabase
 from fastapi import APIRouter, HTTPException
 from schemas.foro import ForoCreate, ForoDelete,ForoGet,ForoUpdate, Foro
 from endpoints.user_endpoints import getuser_byid
-from typing import List
+from endpoints.response_endpoints import get_all_responses
 
 router = APIRouter(prefix="/foro", tags=["Foro"])
 
@@ -25,11 +25,15 @@ async def get_all_foros():
             # Buscamos la info del usuario.
             user_data = await getuser_byid(foro["id_user"])
             userdata = user_data
+            
+            response = await get_all_responses(foro["id_post"])
+            count = len(response)
 
             foro.update({
                 "username": userdata["username"],
-                "icon_url": userdata["icon_url"]
-            })
+                "icon_url": userdata["icon_url"],
+                "count": count
+            }) 
 
             info_foro.append(foro)                                                                                                                                 
 
