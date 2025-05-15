@@ -56,7 +56,7 @@ async def get_rivers(id: int):
             "latest_collage": latest_collage
         })
 
-        cache.setex(key, 1200, json.dumps(rivers))
+        cache.setex(key, 1, json.dumps(rivers))
 
         return rivers
 

@@ -29,7 +29,7 @@ async def get_zoo_hero() -> Multimedia:
             .execute()
         )
 
-        cache.setex(key, 31536000, json.dumps(response.data[0]))
+        cache.setex(key, 1, json.dumps(response.data[0]))
 
         return response.data[0]
 
@@ -65,7 +65,7 @@ async def get_zoo(id_river):
             "flora": flora_response
         })
 
-        cache.setex(key, 600, json.dumps(zoo))
+        cache.setex(key, 1, json.dumps(zoo))
 
         return zoo
 

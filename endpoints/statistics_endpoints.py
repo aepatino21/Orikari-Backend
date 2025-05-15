@@ -26,7 +26,7 @@ async def get_statistics(id_river: int) -> List[Statistics]:
             .execute()
         )
 
-        cache.setex(key, 600, json.dumps(response.data))
+        cache.setex(key, 1, json.dumps(response.data))
 
         return response.data
 
@@ -72,7 +72,7 @@ async def update_statistics(statistics: UpdateStatistics) -> ShowStatistics:
         return response.data[0]
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))    
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 # Delete Statistics data

@@ -71,7 +71,7 @@ async def get_collage(id_river: int):
             'collage': data
         })
 
-        cache.setex(key, 600, json.dumps(collage))
+        cache.setex(key, 1, json.dumps(collage))
 
         return collage
 

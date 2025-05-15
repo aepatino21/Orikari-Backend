@@ -25,13 +25,13 @@ async def get_industry_images(id_river: int):
 
         data = response.data
         images = {}
-        
+
         for multimedia in data:
             multimedia_id = multimedia.get('id_multimedia')
             multimedia_data = await get_multimedia(multimedia_id)
             images.update(multimedia_data)
 
-        return images 
+        return images
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -77,7 +77,7 @@ async def get_industry(id_river: int):
             'industry': data
         })
 
-        cache.setex(key, 600, json.dumps(industry))
+        cache.setex(key, 1, json.dumps(industry))
 
         return industry
 

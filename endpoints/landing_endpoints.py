@@ -11,7 +11,7 @@ router = APIRouter(prefix='/landing', tags=['Landing'])
 # Modificar la consulta para filtrar por el campo 'path' con el valor '/Landing'
 @router.get('/', response_model=List[Multimedia])
 async def get_landing() -> List[Multimedia]:
-    
+
     # Unique key for data caching
     key = 'landing_multimedia'
 
@@ -19,10 +19,10 @@ async def get_landing() -> List[Multimedia]:
 
         # Try to get the cached data
         cached_data = cache.get(key)
-        
+
         if cached_data:
             return json.loads(cached_data)
-        
+
         # Filtrar los elementos con path='/Landing'
         response = (
             supabase.table("Multimedia")
@@ -32,7 +32,7 @@ async def get_landing() -> List[Multimedia]:
         )
 
         # Caching with 10 minutes
-        cache.setex(key, 600, json.dumps(response.data))
+        cache.setex(key, 1, json.dumps(response.data))
 
         return response.data
 

@@ -47,7 +47,7 @@ async def get_movies(id_river: int):
             'movies': data
         })
 
-        cache.setex(key, 600, json.dumps(movies))
+        cache.setex(key, 1, json.dumps(movies))
 
         return movies
 
@@ -56,7 +56,7 @@ async def get_movies(id_river: int):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-# Get a movie 
+# Get a movie
 @router.get('/{id_river}/{id_movie}')
 async def get_movie(id_river: int, id_movie: int):
     key = f'cinematography_{id_river}_{id_movie}'
@@ -79,10 +79,10 @@ async def get_movie(id_river: int, id_movie: int):
 
         multimedia_id = data['id_multimedia']
         multimedia_data = await get_multimedia(multimedia_id)
-        
+
         data.update(multimedia_data)
 
-        cache.setex(key, 600, json.dumps(data))
+        cache.setex(key, 1, json.dumps(data))
 
         return data
 

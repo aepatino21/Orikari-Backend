@@ -75,7 +75,7 @@ async def get_articles(id_river: int):
             "articles": data
         })
 
-        cache.setex(key, 600, json.dumps(articles))
+        cache.setex(key, 1, json.dumps(articles))
 
         return articles
 

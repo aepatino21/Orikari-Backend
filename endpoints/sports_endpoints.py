@@ -49,7 +49,7 @@ async def get_sports(id_river: int):
             'sports': data
         })
 
-        cache.setex(key, 600, json.dumps(sports))
+        cache.setex(key, 1, json.dumps(sports))
 
         return sports
 
