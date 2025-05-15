@@ -38,6 +38,17 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
+# Necesario para Vercel (maneja la solicitud como una función serverless)
+def handler(request):
+    from fastapi.responses import JSONResponse
+    from fastapi.requests import Request
+
+    async def app_handler(req: Request):
+        response = await app(req.scope, req.receive)
+        return JSONResponse(content=response.body)
+
+    return app_handler(request)
+
 # root
 @app.get("/")
 def root():
