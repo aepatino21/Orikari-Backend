@@ -49,7 +49,7 @@ async def get_ecotourisms(id_river: int):
             'ecotourisms': data
         })
 
-        cache.setex(key, 1, json.dumps(ecotourisms))
+        cache.setex(key, 600, json.dumps(ecotourisms))
 
         return ecotourisms
 

@@ -73,7 +73,7 @@ async def get_literatures(id_river: int):
             'literatures': data
         })
 
-        cache.setex(key, 1, json.dumps(literatures))
+        cache.setex(key, 600, json.dumps(literatures))
 
         return literatures
 

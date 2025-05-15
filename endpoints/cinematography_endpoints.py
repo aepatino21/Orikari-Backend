@@ -82,7 +82,7 @@ async def get_movie(id_river: int, id_movie: int):
 
         data.update(multimedia_data)
 
-        cache.setex(key, 1, json.dumps(data))
+        cache.setex(key, 600, json.dumps(data))
 
         return data
 

@@ -58,7 +58,7 @@ async def get_etnia(id_river: int, id_etnia: int):
 
         data.update(multimedia_data)
 
-        cache.setex(key, 1, json.dumps(data))
+        cache.setex(key, 600, json.dumps(data))
 
         return data
 

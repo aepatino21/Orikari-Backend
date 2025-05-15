@@ -26,7 +26,7 @@ async def get_statistics(id_river: int) -> List[Statistics]:
             .execute()
         )
 
-        cache.setex(key, 1, json.dumps(response.data))
+        cache.setex(key, 600, json.dumps(response.data))
 
         return response.data
 

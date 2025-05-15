@@ -32,7 +32,7 @@ async def get_landing() -> List[Multimedia]:
         )
 
         # Caching with 10 minutes
-        cache.setex(key, 1, json.dumps(response.data))
+        cache.setex(key, 600, json.dumps(response.data))
 
         return response.data
 
