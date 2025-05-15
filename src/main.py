@@ -40,29 +40,6 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-# Necesario para Vercel (maneja la solicitud como una función serverless)
-async def handler(request: Request):
-    scope = {
-        "type": "http",
-        "method": request.method,
-        "path": request.url.path,
-        "headers": request.headers,
-    }
-    body = await request.body()
-    
-    async def receive():
-        return {"type": "http.request", "body": body}
-    
-    async def send(message):
-        if message["type"] == "http.response.start":
-            pass
-        elif message["type"] == "http.response.body":
-            return JSONResponse(content=message.get("body", b""))
-    
-    await app(scope, receive, send)
-    return JSONResponse(content={"detail": "Request processed"})
-
-
 # root
 @app.get("/")
 def root():
