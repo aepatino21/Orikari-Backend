@@ -24,7 +24,7 @@ async def get_industry_images(id_river: int):
         )
 
         data = response.data
-        images = {}
+        images = []
 
         for multimedia in data:
             multimedia_id = multimedia.get('id_multimedia')
