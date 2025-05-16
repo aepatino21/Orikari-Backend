@@ -3,6 +3,7 @@ from config.cache import cache
 from typing import List
 from fastapi import APIRouter, HTTPException
 from schemas.multimedia import Multimedia
+import json
 
 # Instancia del Router
 router = APIRouter(prefix='/landing', tags=['Landing'])
@@ -20,7 +21,7 @@ async def get_landing() -> List[Multimedia]:
         cached_data = cache.get(key)
         
         if cached_data:
-            return cached_data
+            return json.loads(cached_data)
         
         # Filtrar los elementos con path='/Landing'
         response = (
@@ -31,7 +32,7 @@ async def get_landing() -> List[Multimedia]:
         )
 
         # Caching with 10 minutes
-        cache.setex(key, 600, response.data)
+        cache.setex(key, 600, json.dumps(response.data))
 
         return response.data
 
