@@ -1,4 +1,5 @@
 from config.supabase_config import supabase
+from config.cache import cache
 from typing import List
 from fastapi import APIRouter, HTTPException
 from schemas.multimedia import Multimedia
@@ -9,8 +10,18 @@ router = APIRouter(prefix='/landing', tags=['Landing'])
 # Modificar la consulta para filtrar por el campo 'path' con el valor '/Landing'
 @router.get('/', response_model=List[Multimedia])
 async def get_landing() -> List[Multimedia]:
+    
+    # Unique key for data caching
+    key = 'landing_multimedia'
+
     try:
 
+        # Try to get the cached data
+        cached_data = cache.get(key)
+        
+        if cached_data:
+            return cached_data
+        
         # Filtrar los elementos con path='/Landing'
         response = (
             supabase.table("Multimedia")
@@ -19,7 +30,9 @@ async def get_landing() -> List[Multimedia]:
             .execute()
         )
 
-        # Retornar los datos filtrados
+        # Caching with 10 minutes
+        cache.setex(key, 600, response.data)
+
         return response.data
 
     except Exception as e:
