@@ -1,8 +1,10 @@
 from config.supabase_config import supabase
+from config.cache import cache
 from schemas.society import Society, InsertSociety, UpdateSociety, DeleteSociety
 from typing import List
 from fastapi import APIRouter, HTTPException
 from endpoints.multimedia_endpoints import get_multimedia
+import json
 
 # Instancia de router
 router = APIRouter(prefix='/industry', tags=['Industry'])
@@ -38,7 +40,13 @@ async def get_industry_images(id_river: int):
 # Get all industry
 @router.get('/{id_river}')
 async def get_industry(id_river: int):
+    key = f'industry_{id_river}'
     try:
+
+        cached_data = cache.get(key)
+
+        if cached_data:
+            return json.loads(cached_data)
 
         response = (
             supabase.table('Society')
@@ -68,6 +76,8 @@ async def get_industry(id_river: int):
             'industry_hero': industry_hero.data[0],
             'industry': data
         })
+
+        cache.setex(key, 600, json.dumps(industry))
 
         return industry
 
