@@ -1,8 +1,10 @@
 from config.supabase_config import supabase
+from config.cache import cache
 from schemas.articles import Articles, InsertArticles, UpdateArticles, DeleteArticles
 from typing import List
 from fastapi import APIRouter, HTTPException
 from endpoints.multimedia_endpoints import get_multimedia
+import json
 
 # Instancia del router
 router = APIRouter(prefix='/articles', tags=['Articles'])
@@ -37,7 +39,13 @@ async def get_latest_articles(id_river: int) -> List[Articles]:
 # Get all the articles
 @router.get('/{id_river}')
 async def get_articles(id_river: int):
+    key = f'articles_{id_river}'
     try:
+
+        cached_data = cache.get(key)
+
+        if cached_data:
+            return json.loads(cached_data)
 
         response = (
             supabase.table('Articles')
@@ -66,6 +74,8 @@ async def get_articles(id_river: int):
             "articles_hero": article_hero.data[0],
             "articles": data
         })
+
+        cache.setex(key, 600, json.dumps(articles))
 
         return articles
 
