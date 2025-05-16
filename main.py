@@ -1,3 +1,4 @@
+from redis import Redis
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from endpoints.multimedia_endpoints import multimedia_router
@@ -28,6 +29,8 @@ app = FastAPI(
     description="Backend for Orikari project made with FastAPI + Supabase"
 )
 
+# Conexion al servidor Valkey
+cache = Redis(host='localhost', port=6379, db=0, decode_responses=True)
 
 # CORS
 app.add_middleware(
