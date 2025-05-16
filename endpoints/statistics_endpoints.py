@@ -1,7 +1,9 @@
 from config.supabase_config import supabase
+from config.cache import cache
 from schemas.statistics import Statistics, InsertStatistics, UpdateStatistics, DeleteStatistics, ShowStatistics
 from typing import List
 from fastapi import APIRouter, HTTPException
+import json
 
 # Instancia del Router
 router = APIRouter(prefix='/statistics', tags=['Statistics'])
@@ -9,7 +11,13 @@ router = APIRouter(prefix='/statistics', tags=['Statistics'])
 # Get Statistics data
 @router.get('/{id_river}', response_model=List[Statistics])
 async def get_statistics(id_river: int) -> List[Statistics]:
+    key = f'statistics_{id_river}'
     try:
+
+        cached_data = cache.get(key)
+
+        if cached_data:
+            return json.loads(cached_data)
 
         response = (
             supabase.table("Statistics")
@@ -17,6 +25,8 @@ async def get_statistics(id_river: int) -> List[Statistics]:
             .eq("id_river", id_river)
             .execute()
         )
+
+        cache.setex(key, 600, json.dumps(response.data))
 
         return response.data
 
