@@ -1,7 +1,9 @@
 from config.supabase_config import supabase
+from config.cache import cache
 from schemas.cinematography import Cinematography, InsertCinematography, UpdateCinematography, DeleteCinematography
 from endpoints.multimedia_endpoints import get_multimedia
 from fastapi import APIRouter, HTTPException
+import json
 
 # Instancia del router
 router = APIRouter(prefix='/cinematography', tags=['Cinematography'])
@@ -10,7 +12,13 @@ router = APIRouter(prefix='/cinematography', tags=['Cinematography'])
 # Get all movies
 @router.get('/{id_river}')
 async def get_movies(id_river: int):
+    key = f'cinematography_{id_river}'
     try:
+
+        cached_data = cache.get(key)
+
+        if cached_data:
+            return json.loads(cached_data)
 
         response = (
             supabase.table('Cinematography')
@@ -39,6 +47,8 @@ async def get_movies(id_river: int):
             'movies': data
         })
 
+        cache.setex(key, 600, json.dumps(movies))
+
         return movies
 
 
@@ -49,7 +59,13 @@ async def get_movies(id_river: int):
 # Get a movie 
 @router.get('/{id_river}/{id_movie}')
 async def get_movie(id_river: int, id_movie: int):
+    key = f'cinematography_{id_river}_{id_movie}'
     try:
+
+        cached_data = cache.get(key)
+
+        if cached_data:
+            return json.loads(cached_data)
 
         response = (
             supabase.table('Cinematography')
@@ -65,6 +81,8 @@ async def get_movie(id_river: int, id_movie: int):
         multimedia_data = await get_multimedia(multimedia_id)
         
         data.update(multimedia_data)
+
+        cache.setex(key, 600, json.dumps(data))
 
         return data
 
