@@ -1,7 +1,9 @@
 from config.supabase_config import supabase
+from config.cache import cache
 from endpoints.multimedia_endpoints import get_multimedia
 from schemas.etnias import Etnias, InsertEtnias, UpdateEtnias, DeleteEtnias
 from fastapi import APIRouter, HTTPException
+import json
 
 # Instancia del router
 router = APIRouter(prefix='/etnias', tags=['Etnias'])
@@ -34,7 +36,13 @@ async def get_etnias(id_river: int):
 # Get etnia description
 @router.get('/{id_river}/{id_etnia}')
 async def get_etnia(id_river: int, id_etnia: int):
+    key = f'etnia_{id_river}_{id_etnia}'
     try:
+
+        cached_data = cache.get(key)
+
+        if cached_data:
+            return json.loads(cached_data)
 
         response = (
             supabase.table('Etnias')
@@ -49,6 +57,8 @@ async def get_etnia(id_river: int, id_etnia: int):
         multimedia_data = await get_multimedia(multimedia_id)
 
         data.update(multimedia_data)
+
+        cache.setex(key, 600, json.dumps(data))
 
         return data
 
