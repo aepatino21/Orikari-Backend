@@ -1,8 +1,10 @@
 from config.supabase_config import supabase
+from config.cache import cache
 from schemas.society import Society, InsertSociety, UpdateSociety, DeleteSociety
 from typing import List
 from fastapi import APIRouter, HTTPException
 from endpoints.multimedia_endpoints import get_multimedia
+import json
 
 
 # Instanciar el router
@@ -11,7 +13,13 @@ router = APIRouter(prefix='/sports', tags=['Sports'])
 # Get Sports
 @router.get('/{id_river}')
 async def get_sports(id_river: int):
+    key = f'sports_{id_river}'
     try:
+
+        cached_data = cache.get(key)
+
+        if cached_data:
+            return json.loads(cached_data)
 
         response = (
             supabase.table('Society')
@@ -40,6 +48,8 @@ async def get_sports(id_river: int):
             'sports_hero': sports_hero.data[0],
             'sports': data
         })
+
+        cache.setex(key, 600, json.dumps(sports))
 
         return sports
 
