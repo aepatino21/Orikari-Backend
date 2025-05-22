@@ -77,7 +77,7 @@ async def get_industry(id_river: int):
             'industry': data
         })
 
-        cache.setex(key, 600, json.dumps(industry))
+        cache.setex(key, 1, json.dumps(industry))
 
         return industry
 
