@@ -29,7 +29,7 @@ async def get_zoo_hero() -> Multimedia:
             .execute()
         )
 
-        cache.setex(key, 600, json.dumps(response.data[0]))
+        cache.setex(key, 1, json.dumps(response.data[0]))
 
         return response.data[0]
 
